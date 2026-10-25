@@ -1,0 +1,70 @@
+[
+ {
+  "id": "01_hook",
+  "at": 0.1,
+  "slot": 4.1,
+  "text": "Factures, TVA, bilan, paie, URSSAF… Vous avez créé votre entreprise pour ça ?",
+  "speed": 1.05
+ },
+ {
+  "id": "02_promesse",
+  "at": 4.35,
+  "slot": 3.0,
+  "text": "Concentrez-vous sur votre métier. On s'occupe du reste."
+ },
+ {
+  "id": "03_logo",
+  "at": 7.45,
+  "slot": 1.8,
+  "text": "Lugassy Expertise, à Paris."
+ },
+ {
+  "id": "04_how",
+  "at": 9.35,
+  "slot": 0.9,
+  "text": "Comment ça marche ?"
+ },
+ {
+  "id": "05_s1",
+  "at": 10.35,
+  "slot": 2.2,
+  "text": "Vous nous transmettez vos pièces."
+ },
+ {
+  "id": "06_s2",
+  "at": 12.65,
+  "slot": 2.2,
+  "text": "On tient vos comptes, et on déclare à temps."
+ },
+ {
+  "id": "07_s3",
+  "at": 15.0,
+  "slot": 2.2,
+  "text": "On analyse vos chiffres."
+ },
+ {
+  "id": "08_s4",
+  "at": 17.35,
+  "slot": 2.0,
+  "text": "Et on vous conseille, à chaque décision."
+ },
+ {
+  "id": "09_why",
+  "at": 19.65,
+  "slot": 1.3,
+  "text": "Pourquoi Lugassy Expertise ?"
+ },
+ {
+  "id": "10_args",
+  "at": 21.2,
+  "slot": 5.6,
+  "text": "Expert-comptable et commissaire aux comptes. Un expert qui connaît votre dossier. Depuis deux mille dix.",
+  "speed": 1.05
+ },
+ {
+  "id": "11_end",
+  "at": 27.45,
+  "slot": 2.5,
+  "text": "Vos chiffres, en ordre. Votre esprit, libre."
+ }
+]

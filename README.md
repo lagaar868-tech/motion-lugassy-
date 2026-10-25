@@ -6,7 +6,8 @@ Vidéo rythmée en HTML/CSS/JS + GSAP, en deux formats :
 | Fichier | Rôle |
 |---|---|
 | `index.html` | L'animation (aperçu avec lecture, curseur et choix du format) |
-| `logo.png` | **À ajouter** — le logo officiel (PNG, fond transparent de préférence) |
+| `logo.png`, `brand/` | Logo redessiné en vectoriel |
+| `audio/voix-off.wav` | Voix off française, ajoutée automatiquement à l'export |
 | `render.js` | Export MP4 image par image (Puppeteer ou Playwright + ffmpeg) |
 | `vendor/`, `fonts/` | GSAP 3.12.5 et Montserrat embarqués : fonctionne hors ligne |
 | `out/` | Vidéos exportées |
@@ -32,18 +33,50 @@ Paris 16e). Deux formulations sont des **promesses de service** à confirmer ava
 
 Tous les textes se modifient directement dans `index.html`.
 
-## Le logo et le rouge exact
+## Logo redessiné
 
-1. Dépose le logo à la racine sous le nom **`logo.png`**.
-2. Le rouge est **mesuré automatiquement dans le logo** (pixel rouge dominant) et appliqué à toute
-   l'animation — la console de `render.js` affiche la valeur trouvée (`rouge: #…`).
-3. Pour forcer une couleur : ajoute `&red=C8102E` à l'URL, ou modifie `--red` en haut de `index.html`.
+Le logo d'origine (carré rouge et « L » calligraphié blanc) était pixelisé. Il a été **vectorisé** :
+mêmes proportions (95 × 88), même tracé, même rouge **#EF4035**, mais net à toutes les tailles.
 
-Sans `logo.png`, un logo de remplacement (carré rouge « L » + LUGASSY EXPERTISE) s'affiche.
-Les vidéos actuelles de `out/` ont été générées avec ce logo de remplacement.
+| Fichier | Usage |
+|---|---|
+| `brand/logo-lugassy.svg` | Version vectorielle (site, impression, signature mail) |
+| `brand/logo-lugassy-2000.png` | PNG haute définition (2000 px) |
+| `logo.png` | Version utilisée par la vidéo |
 
-> La mesure automatique demande que la page soit servie en http (c'est le cas avec `render.js`
-> et `npm run preview`). En ouvrant `index.html` par double-clic, la couleur par défaut est utilisée.
+Dans la vidéo, le symbole est accompagné du nom « LUGASSY EXPERTISE ». Toute l'animation reprend
+automatiquement le rouge mesuré dans `logo.png`. Pour forcer une autre couleur : `&red=EF4035` dans
+l'URL, ou `--red` en haut de `index.html`.
+
+## Voix off
+
+`audio/voix-off.wav` contient la voix off en français, calée sur l'animation. `render.js` l'ajoute
+automatiquement aux MP4.
+
+Texte lu (minutage dans `tools/voix-off/script.json`) :
+
+> Factures, TVA, bilan, paie, URSSAF… Vous avez créé votre entreprise pour ça ?
+> Concentrez-vous sur votre métier. On s'occupe du reste.
+> Lugassy Expertise, à Paris.
+> Comment ça marche ? Vous nous transmettez vos pièces. On tient vos comptes, et on déclare à temps.
+> On analyse vos chiffres. Et on vous conseille, à chaque décision.
+> Pourquoi Lugassy Expertise ? Expert-comptable et commissaire aux comptes.
+> Un expert qui connaît votre dossier. Depuis deux mille dix.
+> Vos chiffres, en ordre. Votre esprit, libre.
+
+Voix de synthèse gratuite (Kokoro, voix française « siwis », licence Apache 2.0).
+**Pour un rendu plus haut de gamme**, faire enregistrer ce texte par un comédien voix-off ou une
+voix de synthèse premium (ElevenLabs, Runway…), puis remplacer `audio/voix-off.wav` (30 s) et
+relancer `npm run render`.
+
+Pour régénérer la voix de synthèse : `pip install kokoro-onnx soundfile`, télécharger
+`kokoro-v1.0.onnx` et `voices-v1.0.bin` (releases GitHub de *thewh1teagle/kokoro-onnx*), puis :
+
+```bash
+python3 tools/voix-off/vo.py <dossier-modèle> <dossier-sortie> tools/voix-off/script.json
+python3 tools/voix-off/mix.py <dossier-sortie> tools/voix-off/script.json voix.wav
+ffmpeg -i voix.wav -af "highpass=f=70,acompressor=threshold=-20dB:ratio=3:makeup=3,loudnorm=I=-16:TP=-1.5" -ar 48000 -ac 2 audio/voix-off.wav
+```
 
 ## Aperçu
 
@@ -75,4 +108,4 @@ l'enregistreur d'écran du Mac — plus simple, mais moins net et parfois saccad
 - Textes : directement dans `index.html` (sections commentées).
 - Rythme : les temps (en secondes) sont le dernier argument de chaque `tl.to(...)`.
 - Durée totale : `DURATION = 30`.
-- Pas de musique : à ajouter au montage, ou `ffmpeg -i out/lugassy-16x9.mp4 -i musique.mp3 -shortest -c:v copy -c:a aac out/final.mp4`.
+- Musique : pas encore de fond musical. Pour en mixer un sous la voix : `ffmpeg -i out/lugassy-16x9.mp4 -i musique.mp3 -filter_complex "[1:a]volume=0.18[m];[0:a][m]amix=inputs=2:duration=first" -c:v copy out/final.mp4`.

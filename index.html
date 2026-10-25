@@ -56,6 +56,10 @@
   #logo { position: relative; opacity: 0; }
   #logo img, #logo svg { display: block; }
   #logoFallback { display: none; }
+  #logo.withMark { display: flex; align-items: center; }
+  #logo .wm { text-align: left; line-height: 1; white-space: nowrap; }
+  #logo .wm b { display: block; font-weight: 600; color: var(--ink); letter-spacing: .14em; }
+  #logo .wm i { display: block; font-style: normal; font-weight: 500; color: var(--red); letter-spacing: .42em; }
   #sweep { position: absolute; left: 50%; top: 50%; height: 4px; background: var(--red); transform: scaleX(0); border-radius: 2px; }
   #logoSub { position: absolute; left: 0; right: 0; font-weight: 500; color: var(--ink); letter-spacing: .06em; opacity: 0; text-align: center; }
   #logoSub b { color: var(--red); font-weight: 600; }
@@ -88,7 +92,7 @@
 
   /* ---------- 4. Pourquoi Lugassy ---------- */
   #why { background: var(--dark); clip-path: inset(100% 0 0 0); color: #fff; }
-  #why .glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(200,16,46,.35), rgba(200,16,46,0) 65%); }
+  #why .glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--red) 38%, transparent), transparent 65%); }
   #why .head { position: absolute; }
   #why h3 { font-weight: 700; line-height: 1.12; color: #fff; }
   #why .list { position: absolute; display: flex; flex-direction: column; }
@@ -426,16 +430,26 @@
     window.__RED = getComputedStyle(document.documentElement).getPropertyValue('--red').trim();
 
     let lw, lh;
+    const logo = $('#logo');
     if (hasLogo) {
-      const ar = img.naturalWidth / img.naturalHeight, maxW = V ? 780 : 700, maxH = V ? 420 : 340;
-      lw = Math.min(maxW, maxH * ar); lh = lw / ar;
-      img.style.width = lw + 'px'; img.style.height = lh + 'px';
+      // Symbole vectorisé + nom du cabinet à côté
+      const ar = img.naturalWidth / img.naturalHeight, sh = V ? 230 : 200;
+      img.style.height = sh + 'px'; img.style.width = sh * ar + 'px';
+      const wm = document.createElement('div');
+      wm.className = 'wm';
+      wm.innerHTML = '<b>LUGASSY</b><i>EXPERTISE</i>';
+      wm.style.marginLeft = sh * .24 + 'px';
+      wm.querySelector('b').style.fontSize = sh * .34 + 'px';
+      wm.querySelector('i').style.fontSize = sh * .155 + 'px';
+      wm.querySelector('i').style.marginTop = sh * .14 + 'px';
+      logo.appendChild(wm); logo.classList.add('withMark');
+      lw = logo.offsetWidth; lh = logo.offsetHeight;
     } else {
       img.style.display = 'none'; fallback.style.display = 'block';
       lw = V ? 780 : 680; lh = lw * 200 / 640;
       fallback.style.width = lw + 'px'; fallback.style.height = lh + 'px';
     }
-    const logo = $('#logo'), mark = hasLogo ? img : fallback, sweep = $('#sweep'), sub = $('#logoSub');
+    const mark = hasLogo ? logo : fallback, sweep = $('#sweep'), sub = $('#logoSub');
     const sw = lw * 1.1;
     sweep.style.width = sw + 'px'; sweep.style.marginLeft = (-sw / 2) + 'px';
     sub.style.top = (H / 2 + lh / 2 + (V ? 90 : 70)) + 'px';
