@@ -110,4 +110,3 @@ l'enregistreur d'écran du Mac — plus simple, mais moins net et parfois saccad
 - Textes : directement dans `index.html` (sections commentées).
 - Rythme : les temps (en secondes) sont le dernier argument de chaque `tl.to(...)`.
 - Durée totale : `DURATION = 30`.
-- Musique : pas encore de fond musical. Pour en mixer un sous la voix : `ffmpeg -i out/lugassy-16x9.mp4 -i musique.mp3 -filter_complex "[1:a]volume=0.18[m];[0:a][m]amix=inputs=2:duration=first" -c:v copy out/final.mp4`.
