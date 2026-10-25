@@ -7,7 +7,7 @@ Vidéo rythmée en HTML/CSS/JS + GSAP, en deux formats :
 |---|---|
 | `index.html` | L'animation (aperçu avec lecture, curseur et choix du format) |
 | `logo.png`, `brand/` | Logo redessiné en vectoriel |
-| `audio/voix-off.wav` | Voix off française, ajoutée automatiquement à l'export |
+| `audio/` | Voix off, musique originale et mixage final (ajouté automatiquement à l'export) |
 | `render.js` | Export MP4 image par image (Puppeteer ou Playwright + ffmpeg) |
 | `vendor/`, `fonts/` | GSAP 3.12.5 et Montserrat embarqués : fonctionne hors ligne |
 | `out/` | Vidéos exportées |
@@ -48,35 +48,37 @@ Dans la vidéo, le symbole est accompagné du nom « LUGASSY EXPERTISE ». Toute
 automatiquement le rouge mesuré dans `logo.png`. Pour forcer une autre couleur : `&red=EF4035` dans
 l'URL, ou `--red` en haut de `index.html`.
 
-## Voix off
+## Bande-son (voix off + musique)
 
-`audio/voix-off.wav` contient la voix off en français, calée sur l'animation. `render.js` l'ajoute
-automatiquement aux MP4.
+| Fichier | Contenu |
+|---|---|
+| `audio/voix-off.wav` | Voix off seule |
+| `audio/musique.mid` / `audio/musique.wav` | Musique originale (partition MIDI + rendu) |
+| `audio/bande-son.wav` | Mixage final, intégré aux MP4 de `out/` |
 
-Texte lu (minutage dans `tools/voix-off/script.json`) :
+**Voix off** — voix française masculine, posée (Piper, voix « tom »), débit ralenti de 5 %.
+Chaque phrase est calée sur l'animation :
 
-> Factures, TVA, bilan, paie, URSSAF… Vous avez créé votre entreprise pour ça ?
-> Concentrez-vous sur votre métier. On s'occupe du reste.
-> Lugassy Expertise, à Paris.
-> Comment ça marche ? Vous nous transmettez vos pièces. On tient vos comptes, et on déclare à temps.
-> On analyse vos chiffres. Et on vous conseille, à chaque décision.
-> Pourquoi Lugassy Expertise ? Expert-comptable et commissaire aux comptes.
-> Un expert qui connaît votre dossier. Depuis deux mille dix.
-> Vos chiffres, en ordre. Votre esprit, libre.
+| Temps | Phrase | À l'écran |
+|---|---|---|
+| 7,2 s | « Lugassy Expertise. » | Révélation du logo |
+| 10,2 → 18 s | « Expertise comptable, fiscalité, audit et commissariat aux comptes, juridique. » | Un métier par étape (01 → 04) |
+| 20,8 s | « Depuis 2010, nous accompagnons les entreprises de l'Île-de-France. » | « Pourquoi Lugassy Expertise ? » |
+| 27,4 s | « Votre expert-comptable à Paris. » | Logo final + rendez-vous |
 
-Voix de synthèse gratuite (Kokoro, voix française « siwis », licence Apache 2.0).
-**Pour un rendu plus haut de gamme**, faire enregistrer ce texte par un comédien voix-off ou une
-voix de synthèse premium (ElevenLabs, Runway…), puis remplacer `audio/voix-off.wav` (30 s) et
-relancer `npm run render`.
+L'accroche (0-7 s) reste sans voix : la musique et les mots à l'écran portent le début.
 
-Pour régénérer la voix de synthèse : `pip install kokoro-onnx soundfile`, télécharger
-`kokoro-v1.0.onnx` et `voices-v1.0.bin` (releases GitHub de *thewh1teagle/kokoro-onnx*), puis :
+**Musique** — composée par le code (`tools/musique/compose.py`) et jouée avec FluidSynth
+(soundfont FluidR3) : piano en arpèges, nappe de cordes, violoncelle discret.
+80 BPM, Do majeur, Do – Sol – La m – Fa. Une mesure dure 3 s, donc les 10 mesures font
+exactement 30 s. Elle monte doucement jusqu'à ré m7 → sol (24-27 s), puis se résout sur do au
+moment du logo final.
 
-```bash
-python3 tools/voix-off/vo.py <dossier-modèle> <dossier-sortie> tools/voix-off/script.json
-python3 tools/voix-off/mix.py <dossier-sortie> tools/voix-off/script.json voix.wav
-ffmpeg -i voix.wav -af "highpass=f=70,acompressor=threshold=-20dB:ratio=3:makeup=3,loudnorm=I=-16:TP=-1.5" -ar 48000 -ac 2 audio/voix-off.wav
-```
+**Mixage** — musique basse, baisse automatique de 16 à 22 dB sous la voix (ducking),
+fondu d'entrée de 1,2 s et de sortie de 2,4 s.
+
+Pour tout régénérer : `tools/mixage.sh <chemin vers fr_FR-tom-medium.onnx>`. Les prérequis
+sont indiqués en tête du script.
 
 ## Aperçu
 

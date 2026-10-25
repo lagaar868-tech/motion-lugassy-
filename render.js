@@ -63,9 +63,9 @@ async function launch() {
     const frames = Math.round(dur * FPS);
     console.log(`\n▶ ${name}  ${w}x${h}  ${dur}s @ ${FPS} fps  (${frames} images)  rouge: ${red}`);
 
-    // Voix off ajoutée automatiquement si audio/voix-off.wav existe
-    const VOICE = path.join(ROOT, 'audio', 'voix-off.wav');
-    const audioIn = fs.existsSync(VOICE) ? ['-i', VOICE] : [];
+    // Bande-son (voix + musique mixées) ajoutée automatiquement ; sinon la voix seule
+    const AUDIO = ['bande-son.wav', 'voix-off.wav'].map(f => path.join(ROOT, 'audio', f)).find(f => fs.existsSync(f));
+    const audioIn = AUDIO ? ['-i', AUDIO] : [];
     const audioOut = audioIn.length ? ['-map', '0:v', '-map', '1:a', '-c:a', 'aac', '-b:a', '192k', '-shortest'] : [];
     const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-', ...audioIn,
       '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-pix_fmt', 'yuv420p', ...audioOut, '-movflags', '+faststart',
