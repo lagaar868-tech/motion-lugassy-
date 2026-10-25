@@ -1,0 +1,15 @@
+{
+  "name": "motion-lugassy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Motion design Lugassy Expertise (GSAP) + export MP4",
+  "scripts": {
+    "preview": "npx --yes serve -l 8080 .",
+    "render": "node render.js",
+    "render:169": "node render.js --format 169",
+    "render:916": "node render.js --format 916"
+  },
+  "devDependencies": {
+    "puppeteer": "^23.0.0"
+  }
+}
