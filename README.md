@@ -1,7 +1,7 @@
-# Lugassy Expertise — motion design (15 s)
+# Lugassy Expertise — vidéo de présentation (30 s)
 
-Animation sobre en HTML/CSS/JS + GSAP, en deux formats :
-**16:9 (1920×1080)** pour le site et LinkedIn, **9:16 (1080×1920)** pour les réseaux.
+Vidéo rythmée en HTML/CSS/JS + GSAP, en deux formats :
+**16:9 (1920×1080)** pour le site et LinkedIn, **9:16 (1080×1920)** pour Instagram, TikTok et les Shorts.
 
 | Fichier | Rôle |
 |---|---|
@@ -13,17 +13,24 @@ Animation sobre en HTML/CSS/JS + GSAP, en deux formats :
 
 ## Storyboard
 
-| Temps | Scène | Mouvement |
+| Temps | Scène | Ce qu'on voit |
 |---|---|---|
-| 0,0 – 2,9 s | **1. Révélation du logo** | Fond blanc. Une fine ligne rouge se trace depuis le centre, puis descend comme un scanner et révèle le logo (fondu + zoom 95 % → 100 %). La ligne se resserre en petit trait d'accent. |
-| 2,9 – 5,9 s | **2. Identité** | Le logo remonte en en-tête. Une grille de lignes très fines se dessine. « LUGASSY EXPERTISE » sort d'un masque, l'interlettrage se resserre ; trait rouge ; « Expert-comptable & Commissaire aux comptes ». |
-| 5,8 – 9,9 s | **3. Les 4 métiers** | Un par un (toutes les 0,7 s), icônes au trait rouge qui se dessinent : Expertise comptable (calculatrice) · Fiscalité (document %) · Audit & Commissariat aux comptes (loupe validée) · Juridique (balance). En ligne en 16:9, en liste en 9:16. |
-| 5,0 – 12 s | **4. Éléments discrets** | En fond : une courbe rouge qui monte doucement avec des points-repères, une courbe grise en écho, des barres fines, des chiffres de type écriture comptable qui défilent (gris, faible opacité). |
-| 9,9 – 12,6 s | **5. Accroche** | « Depuis **2010** » (l'année défile de 2000 à 2010), trait rouge, « aux côtés des entreprises d'Île-de-France ». |
-| 12,6 – 15 s | **6. Signature** | Le logo revient au centre, le décor s'estompe. Trait rouge, `www.lugassy-expertise.fr`, « PARIS 16e ». Plan tenu ~1,5 s. |
+| 0 – 4 s | **Le problème** | « Factures. TVA. Bilan. Paie. URSSAF. » tombent à l'écran comme des tampons, puis s'effacent : « Vous avez créé votre entreprise pour **ça** ? » |
+| 4 – 7 s | **La promesse** | Un volet rouge balaie l'écran : « Concentrez-vous sur votre métier. On s'occupe du reste. » |
+| 6,5 – 9,5 s | **Le cabinet** | Le volet repart et découvre le logo, révélé par une ligne rouge. « Expert-comptable & Commissaire aux comptes · Paris 16e · Île-de-France » |
+| 9,3 – 19,4 s | **Comment ça marche ?** | Les 4 étapes du travail d'un cabinet, avec une barre de progression et une illustration animée par étape :<br>**01 Vous transmettez** (les documents tombent dans le dossier) · **02 On tient vos comptes** (les 12 mois se cochent) · **03 On analyse** (graphique qui monte, « Rentable ✓ ») · **04 On vous conseille** (marches + flèche, Fiscalité / Juridique / Croissance) |
+| 19,4 – 26,7 s | **Pourquoi Lugassy Expertise ?** | Fond anthracite, 4 arguments qui se cochent : double qualification expert-comptable **et** commissaire aux comptes · un expert qui connaît votre dossier · depuis 2010 en Île-de-France · comptable, fiscal, audit, juridique sous un même toit |
+| 26,7 – 30 s | **Appel à l'action** | Ouverture en cercle sur fond blanc : logo, « Vos chiffres en ordre. **Votre esprit libre.** », bouton « Prenons rendez-vous », site et adresse |
 
-Easing : `power2/power3` uniquement (pas de rebond sauf un très léger sur les points de la courbe).
-Palette : rouge du logo · blanc · anthracite `#232528` · gris `#8A8D91`.
+### Textes à valider par le cabinet
+
+Les phrases s'appuient sur des faits connus (création en 2010, double qualification, 4 métiers,
+Paris 16e). Deux formulations sont des **promesses de service** à confirmer avant diffusion :
+
+- « Un interlocuteur direct, qui décroche et vous répond. »
+- « Zéro retard, zéro pénalité. »
+
+Tous les textes se modifient directement dans `index.html`.
 
 ## Le logo et le rouge exact
 
@@ -52,7 +59,7 @@ Barre de contrôle : 16:9 / 9:16, pause, rejouer, curseur. Espace = lecture/paus
    - Windows : `winget install OpenJS.NodeJS Gyan.FFmpeg`
 2. Dans le dossier du projet : `npm install` (installe Puppeteer et son Chromium)
 3. `npm run render`
-   → `out/lugassy-16x9.mp4` et `out/lugassy-9x16.mp4` (H.264, 30 i/s, ~1 min de calcul)
+   → `out/lugassy-16x9.mp4` et `out/lugassy-9x16.mp4` (H.264, 30 i/s, ~2 min de calcul)
 
 Options : `node render.js --format 916` (un seul format), `--fps 60`.
 
@@ -65,7 +72,7 @@ l'enregistreur d'écran du Mac — plus simple, mais moins net et parfois saccad
 
 ## Modifier
 
-- Textes : directement dans `index.html` (sections commentées 1 à 6).
+- Textes : directement dans `index.html` (sections commentées).
 - Rythme : les temps (en secondes) sont le dernier argument de chaque `tl.to(...)`.
-- Durée totale : `DURATION = 15`.
+- Durée totale : `DURATION = 30`.
 - Pas de musique : à ajouter au montage, ou `ffmpeg -i out/lugassy-16x9.mp4 -i musique.mp3 -shortest -c:v copy -c:a aac out/final.mp4`.

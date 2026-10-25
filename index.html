@@ -13,20 +13,19 @@
 
   :root {
     --red: #C8102E;          /* remplacé automatiquement par le rouge mesuré dans logo.png */
-    --ink: #232528;          /* anthracite */
-    --grey: #8A8D91;
-    --line: #E6E7E9;
+    --ink: #1F2124;          /* anthracite */
+    --dark: #18191C;
+    --grey: #6E7177;
+    --soft: #A9ACB2;
+    --line: #E7E8EA;
     --white: #FFFFFF;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; background: #F2F2F3; overflow: hidden; }
-  body { font-family: "Montserrat", "Inter", system-ui, sans-serif; color: var(--ink);
-         -webkit-font-smoothing: antialiased; }
+  html, body { width: 100%; height: 100%; background: #EDEDEF; overflow: hidden; }
+  body { font-family: "Montserrat", "Inter", system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
 
-  /* ---------- Scène ---------- */
   #viewport { position: absolute; inset: 0 0 64px 0; display: flex; align-items: center; justify-content: center; }
-  #stage { position: relative; flex: none; background: var(--white); overflow: hidden;
-           transform-origin: center center; box-shadow: 0 10px 40px rgba(0,0,0,.08); }
+  #stage { position: relative; flex: none; background: var(--white); overflow: hidden; transform-origin: center; box-shadow: 0 10px 40px rgba(0,0,0,.1); }
   #stage.f169 { width: 1920px; height: 1080px; }
   #stage.f916 { width: 1080px; height: 1920px; }
   body.render { background: #fff; }
@@ -34,99 +33,144 @@
   body.render #stage { box-shadow: none; }
   body.render #controls { display: none; }
 
-  .layer { position: absolute; inset: 0; display: flex; flex-direction: column;
-           align-items: center; justify-content: center; text-align: center; pointer-events: none; }
+  .layer { position: absolute; inset: 0; pointer-events: none; }
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .m { display: block; overflow: hidden; padding: .04em .06em .1em; margin: -.04em -.06em -.1em; }
+  .m > span { display: inline-block; will-change: transform; }
+  .red { color: var(--red); }
+  .kicker { font-weight: 600; letter-spacing: .32em; color: var(--red); text-transform: uppercase; }
 
-  /* Décor */
-  #bg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  #bg .grid line { stroke: #000; stroke-opacity: .05; stroke-width: 1; }
-  #bg .curve { fill: none; stroke: var(--red); stroke-width: 2.5; stroke-linecap: round; stroke-opacity: .55; }
-  #bg .curve2 { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-opacity: .14; }
-  #bg .dot { fill: var(--white); stroke: var(--red); stroke-width: 2; }
-  #bg .bar { stroke: var(--ink); stroke-opacity: .12; stroke-width: 10; }
-  .fig { position: absolute; font-size: 22px; font-weight: 400; color: var(--grey); opacity: 0;
-         font-variant-numeric: tabular-nums; letter-spacing: .06em; white-space: nowrap; }
-  .fig b { font-weight: 600; color: var(--red); }
+  /* ---------- 1. Accroche ---------- */
+  .word { position: absolute; font-weight: 700; color: var(--ink); opacity: 0; white-space: nowrap; letter-spacing: -.01em; }
+  .word.r { color: var(--red); }
+  #q h2 { font-weight: 600; line-height: 1.15; color: var(--ink); }
+  #q h2 .ca { display: inline-block; color: var(--red); }
 
-  /* Logo */
-  #logo { position: relative; opacity: 0; will-change: transform; }
+  /* Volet rouge (avec texte embarqué) */
+  #wipe { background: var(--red); color: #fff; visibility: hidden; }
+  #wipe h2 { font-weight: 600; line-height: 1.2; }
+  #wipe h2 .light { font-weight: 300; }
+  #wipe .ul { height: 5px; background: #fff; transform: scaleX(0); transform-origin: left; }
+
+  /* ---------- 2. Logo ---------- */
+  #logo { position: relative; opacity: 0; }
   #logo img, #logo svg { display: block; }
   #logoFallback { display: none; }
-  #sweep { position: absolute; left: 50%; top: 50%; height: 3px; background: var(--red);
-           transform: scaleX(0); border-radius: 2px; }
+  #sweep { position: absolute; left: 50%; top: 50%; height: 4px; background: var(--red); transform: scaleX(0); border-radius: 2px; }
+  #logoSub { position: absolute; left: 0; right: 0; font-weight: 500; color: var(--ink); letter-spacing: .06em; opacity: 0; text-align: center; }
+  #logoSub b { color: var(--red); font-weight: 600; }
 
-  /* Titre */
-  #title h1 { font-weight: 600; letter-spacing: .14em; line-height: 1.08; color: var(--ink); }
-  #title h1 .mask { display: block; overflow: hidden; padding: 0 .1em; }
-  #title h1 .mask > span { display: block; }
-  #title .rule { width: 90px; height: 3px; background: var(--red); margin: 38px auto; transform: scaleX(0); }
-  #title p { font-weight: 400; color: var(--ink); opacity: 0; letter-spacing: .02em; }
-  #title p em { font-style: normal; color: var(--red); font-weight: 500; }
+  /* ---------- 3. Fonctionnement ---------- */
+  #how { opacity: 0; }
+  #how .head { position: absolute; }
+  #how h3 { font-weight: 700; color: var(--ink); line-height: 1.1; }
+  #how .prog { position: absolute; display: flex; gap: 14px; }
+  #how .seg { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; transform-origin: left; }
+  #how .seg i { display: block; height: 100%; background: var(--red); transform: scaleX(0); transform-origin: left; }
+  .step { position: absolute; inset: 0; }
+  .step .txt { position: absolute; }
+  .step .num { font-weight: 300; color: var(--red); line-height: 1; font-variant-numeric: tabular-nums; }
+  .step h4 { font-weight: 700; color: var(--ink); line-height: 1.12; }
+  .step p { font-weight: 400; color: var(--grey); line-height: 1.5; }
+  .step p b { color: var(--ink); font-weight: 600; }
+  .step .ill { position: absolute; }
+  .ill svg { width: 100%; height: 100%; overflow: visible; }
+  .ill .stroke { fill: none; stroke: var(--red); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .ill .gstroke { fill: none; stroke: #C9CBD0; stroke-width: 3; stroke-linecap: round; }
+  .ill .card { fill: #fff; stroke: #D5D7DB; stroke-width: 2.5; }
+  .ill .ln { stroke: #DADCE0; stroke-width: 8; stroke-linecap: round; }
+  .ill .lnr { stroke: var(--red); stroke-width: 8; stroke-linecap: round; opacity: .85; }
+  .ill text { font-family: "Montserrat", sans-serif; }
+  .ill .redfill { fill: var(--red); }
+  .ill .bar { fill: #E3E4E7; }
+  .ill .bar.hi { fill: var(--red); }
+  .blob { position: absolute; border-radius: 50%; border: 2px solid var(--line); }
 
-  /* Métiers */
-  #services .list { display: flex; }
-  .svc { position: relative; opacity: 0; display: flex; align-items: center; }
-  .svc .num { color: var(--red); font-weight: 600; letter-spacing: .2em; }
-  .svc svg { fill: none; stroke: var(--red); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
-  .svc .lbl { font-weight: 500; color: var(--ink); line-height: 1.3; }
-  .svc .sep { position: absolute; background: var(--line); }
+  /* ---------- 4. Pourquoi Lugassy ---------- */
+  #why { background: var(--dark); clip-path: inset(100% 0 0 0); color: #fff; }
+  #why .glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(200,16,46,.35), rgba(200,16,46,0) 65%); }
+  #why .head { position: absolute; }
+  #why h3 { font-weight: 700; line-height: 1.12; color: #fff; }
+  #why .list { position: absolute; display: flex; flex-direction: column; }
+  .arg { display: flex; align-items: flex-start; }
+  .arg svg { flex: none; overflow: visible; }
+  .arg svg circle { fill: var(--red); }
+  .arg svg path { fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+  .arg h5 { font-weight: 600; color: #fff; line-height: 1.2; }
+  .arg p { font-weight: 400; color: var(--soft); line-height: 1.4; opacity: 0; }
+  .arg .tag { display: inline-block; font-weight: 600; letter-spacing: .24em; color: var(--red); text-transform: uppercase; opacity: 0; }
 
-  /* Accroche */
-  #tagline .since { font-weight: 300; color: var(--ink); line-height: 1; opacity: 0; letter-spacing: .01em; }
-  #tagline .since b { font-weight: 600; color: var(--red); font-variant-numeric: tabular-nums; }
-  #tagline p { font-weight: 400; color: var(--ink); opacity: 0; line-height: 1.35; }
-  #tagline .rule { height: 2px; background: var(--red); transform: scaleX(0); }
+  /* ---------- 5. Fin ---------- */
+  #end { background: #fff; clip-path: circle(0% at 50% 50%); }
+  #end .tl { font-weight: 600; line-height: 1.18; color: var(--ink); }
+  #end .cta { display: inline-block; background: var(--red); color: #fff; font-weight: 600; letter-spacing: .08em; border-radius: 999px; opacity: 0; position: relative; }
+  #end .ring { position: absolute; inset: 0; border-radius: 999px; border: 3px solid var(--red); opacity: 0; }
+  #end .url { font-weight: 500; letter-spacing: .06em; color: var(--ink); opacity: 0; }
+  #end .addr { font-weight: 500; letter-spacing: .22em; color: var(--grey); text-transform: uppercase; opacity: 0; }
+  #end .addr b { color: var(--red); font-weight: 600; }
 
-  /* Fin */
-  #end .url { font-weight: 500; letter-spacing: .08em; color: var(--ink); opacity: 0; }
-  #end .loc { font-weight: 600; letter-spacing: .32em; color: var(--red); text-transform: uppercase; opacity: 0; }
-  #end .rule { width: 70px; height: 2px; background: var(--red); transform: scaleX(0); }
+  /* ================= 16:9 ================= */
+  .f169 .word { font-size: 128px; }
+  .f169 #q h2 { font-size: 86px; }
+  .f169 #wipe h2 { font-size: 92px; }
+  .f169 #wipe .ul { width: 760px; margin-top: 34px; }
+  .f169 #logoSub { font-size: 30px; }
+  .f169 #how .head { left: 140px; top: 96px; }
+  .f169 #how .kicker { font-size: 20px; margin-bottom: 18px; }
+  .f169 #how h3 { font-size: 66px; }
+  .f169 #how .prog { left: 140px; right: 140px; top: 300px; }
+  .f169 .step .txt { left: 140px; top: 390px; width: 780px; }
+  .f169 .step .num { font-size: 150px; margin-bottom: 18px; }
+  .f169 .step h4 { font-size: 64px; margin-bottom: 26px; }
+  .f169 .step p { font-size: 33px; }
+  .f169 .step .ill { left: 1010px; top: 400px; width: 780px; height: 520px; }
+  .f169 #why .head { left: 140px; top: 100px; }
+  .f169 #why .kicker { font-size: 20px; margin-bottom: 18px; }
+  .f169 #why h3 { font-size: 76px; }
+  .f169 #why h3 .m { display: inline-block; }
+  .f169 #why .list { left: 140px; right: 140px; top: 340px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px 90px; }
+  .f169 .arg svg { width: 72px; height: 72px; margin-right: 32px; }
+  .f169 .arg .tag { font-size: 19px; margin-bottom: 14px; }
+  .f169 .arg h5 { font-size: 48px; margin-bottom: 14px; }
+  .f169 .arg p { font-size: 30px; }
+  .f169 #end .tl { font-size: 74px; margin: 56px 0 50px; }
+  .f169 #end .cta { font-size: 28px; padding: 24px 54px; margin-bottom: 40px; }
+  .f169 #end .url { font-size: 32px; margin-bottom: 14px; }
+  .f169 #end .addr { font-size: 19px; }
+  .f169 #end .addr .br { display: none; }
 
-  /* ---------- 16:9 ---------- */
-  .f169 #title h1 { font-size: 96px; }
-  .f169 #title p { font-size: 36px; }
-  .f169 #title .br { display: none; }
-  .f169 #services { padding-top: 90px; }
-  .f169 #services .list { flex-direction: row; }
-  .f169 .svc { flex-direction: column; width: 430px; padding: 0 14px; }
-  .f169 .svc .num { font-size: 18px; margin-bottom: 26px; }
-  .f169 .svc svg { width: 104px; height: 104px; margin-bottom: 30px; }
-  .f169 .svc .lbl { font-size: 28px; min-height: 76px; }
-  .f169 .svc .sep { left: 0; top: 10%; width: 1px; height: 80%; transform-origin: top; }
-  .f169 .svc:first-child .sep { display: none; }
-  .f169 #tagline .since { font-size: 124px; margin-bottom: 40px; }
-  .f169 #tagline .rule { width: 120px; margin-bottom: 40px; }
-  .f169 #tagline p { font-size: 42px; }
-  .f169 #tagline .br { display: none; }
-  .f169 #end { padding-top: 330px; }
-  .f169 #end .rule { margin-bottom: 40px; }
-  .f169 #end .url { font-size: 38px; margin-bottom: 20px; }
-  .f169 #end .loc { font-size: 22px; }
+  /* ================= 9:16 ================= */
+  .f916 .word { font-size: 120px; }
+  .f916 #q h2 { font-size: 84px; }
+  .f916 #wipe h2 { font-size: 88px; }
+  .f916 #wipe .ul { width: 560px; margin-top: 40px; }
+  .f916 #logoSub { font-size: 34px; line-height: 1.5; }
+  .f916 #how .head { left: 90px; right: 90px; top: 170px; }
+  .f916 #how .kicker { font-size: 24px; margin-bottom: 22px; }
+  .f916 #how h3 { font-size: 78px; }
+  .f916 #how .prog { left: 90px; right: 90px; top: 470px; }
+  .f916 .step .txt { left: 90px; right: 90px; top: 560px; }
+  .f916 .step .num { font-size: 150px; margin-bottom: 14px; }
+  .f916 .step h4 { font-size: 72px; margin-bottom: 26px; }
+  .f916 .step p { font-size: 40px; }
+  .f916 .step .ill { left: 60px; top: 1070px; width: 960px; height: 640px; }
+  .f916 #why .head { left: 90px; right: 90px; top: 170px; }
+  .f916 #why .kicker { font-size: 24px; margin-bottom: 22px; }
+  .f916 #why h3 { font-size: 86px; }
+  .f916 #why .list { left: 90px; right: 90px; top: 560px; gap: 66px; }
+  .f916 .arg svg { width: 76px; height: 76px; margin-right: 34px; }
+  .f916 .arg .tag { font-size: 21px; margin-bottom: 14px; }
+  .f916 .arg h5 { font-size: 52px; margin-bottom: 14px; }
+  .f916 .arg p { font-size: 35px; }
+  .f916 #end .tl { font-size: 76px; margin: 70px 0 70px; }
+  .f916 #end .cta { font-size: 34px; padding: 30px 64px; margin-bottom: 56px; }
+  .f916 #end .url { font-size: 40px; margin-bottom: 18px; }
+  .f916 #end .addr { font-size: 24px; line-height: 1.7; }
+  .f916 #end .addr .sep { display: none; }
 
-  /* ---------- 9:16 ---------- */
-  .f916 #title h1 { font-size: 112px; }
-  .f916 #title p { font-size: 46px; line-height: 1.4; }
-  .f916 #services { padding-top: 120px; }
-  .f916 #services .list { flex-direction: column; }
-  .f916 .svc { flex-direction: row; width: 880px; padding: 46px 0; text-align: left; }
-  .f916 .svc .num { font-size: 20px; width: 70px; }
-  .f916 .svc svg { width: 128px; height: 128px; margin-right: 46px; }
-  .f916 .svc .lbl { font-size: 42px; }
-  .f916 .svc .sep { left: 0; top: 0; height: 1px; width: 100%; transform-origin: left; }
-  .f916 .svc:first-child .sep { display: none; }
-  .f916 #tagline .since { font-size: 150px; margin-bottom: 56px; }
-  .f916 #tagline .rule { width: 140px; margin-bottom: 56px; }
-  .f916 #tagline p { font-size: 56px; }
-  .f916 #end { padding-top: 470px; }
-  .f916 #end .rule { margin-bottom: 52px; }
-  .f916 #end .url { font-size: 48px; margin-bottom: 26px; }
-  .f916 #end .loc { font-size: 28px; }
-
-  /* ---------- Contrôles (aperçu uniquement) ---------- */
-  #controls { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; display: flex; gap: 10px;
-              align-items: center; justify-content: center; padding: 0 16px; font: 500 14px/1 "Montserrat", sans-serif; }
-  #controls button { font: inherit; border: 1px solid #d0d1d4; background: #fff; color: var(--ink);
-                     padding: 9px 14px; border-radius: 6px; cursor: pointer; }
+  /* ---------- Contrôles (aperçu) ---------- */
+  #controls { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; display: flex; gap: 10px; align-items: center; justify-content: center; padding: 0 16px; font: 500 14px/1 "Montserrat", sans-serif; }
+  #controls button { font: inherit; border: 1px solid #d0d1d4; background: #fff; color: var(--ink); padding: 9px 14px; border-radius: 6px; cursor: pointer; }
   #controls button.on { border-color: var(--red); color: var(--red); }
   #controls input[type=range] { width: min(420px, 40vw); accent-color: var(--red); }
   #controls .t { width: 52px; font-variant-numeric: tabular-nums; color: var(--grey); }
@@ -134,72 +178,146 @@
 </head>
 <body>
 <div id="viewport">
-  <div id="stage" class="f169">
-    <svg id="bg" xmlns="http://www.w3.org/2000/svg">
-      <g class="grid"></g>
-      <g class="bars"></g>
-      <path class="curve2"/>
-      <path class="curve"/>
-      <g class="dots"></g>
-    </svg>
-    <div id="figs"></div>
+<div id="stage" class="f169">
 
-    <!-- 1. Logo -->
-    <div class="layer" id="logoLayer">
-      <div id="logo">
-        <img id="logoImg" alt="Lugassy Expertise">
-        <!-- Logo de secours si logo.png est absent -->
-        <svg id="logoFallback" viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="25" width="150" height="150" fill="var(--red)"/>
-          <text x="75" y="142" text-anchor="middle" font-family="Montserrat" font-weight="700" font-size="112" fill="#fff">L</text>
-          <text x="180" y="102" font-family="Montserrat" font-weight="600" font-size="62" letter-spacing="6" fill="#232528">LUGASSY</text>
-          <text x="182" y="160" font-family="Montserrat" font-weight="500" font-size="38" letter-spacing="14" fill="var(--red)">EXPERTISE</text>
-        </svg>
+  <!-- ===== 1. Accroche : la charge administrative ===== -->
+  <div class="layer" id="words">
+    <div class="word">Factures.</div>
+    <div class="word r">TVA.</div>
+    <div class="word">Bilan.</div>
+    <div class="word">Paie.</div>
+    <div class="word r">URSSAF.</div>
+  </div>
+  <div class="layer center" id="q">
+    <h2><span class="m"><span>Vous avez créé votre entreprise</span></span><span class="m"><span>pour <span class="ca">ça&nbsp;?</span></span></span></h2>
+  </div>
+
+  <!-- ===== 3. Comment fonctionne un cabinet ===== -->
+  <div class="layer" id="how">
+    <div class="blob"></div><div class="blob"></div>
+    <div class="head">
+      <div class="kicker m"><span>Votre cabinet, au quotidien</span></div>
+      <h3><span class="m"><span>Comment ça marche&nbsp;?</span></span></h3>
+    </div>
+    <div class="prog"><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div></div>
+
+    <!-- Étape 1 -->
+    <div class="step">
+      <div class="txt">
+        <div class="num m"><span>01</span></div>
+        <h4><span class="m"><span>Vous transmettez.</span></span></h4>
+        <p>Factures, relevés, notes de frais&nbsp;: <b>vous déposez, on récupère tout.</b> Fini les cartons de papiers.</p>
       </div>
-      <div id="sweep"></div>
+      <div class="ill"><svg viewBox="0 0 780 520">
+        <rect class="stroke" x="210" y="300" width="360" height="190" rx="18"/>
+        <path class="stroke" d="M210 330 h120 l24 -30 h216"/>
+        <g class="doc"><rect class="card" x="0" y="0" width="150" height="190" rx="12"/><text x="20" y="44" font-size="20" font-weight="700" fill="#1F2124">Facture</text><line class="lnr" x1="20" y1="80" x2="100" y2="80"/><line class="ln" x1="20" y1="110" x2="128" y2="110"/><line class="ln" x1="20" y1="140" x2="90" y2="140"/></g>
+        <g class="doc"><rect class="card" x="0" y="0" width="150" height="190" rx="12"/><text x="20" y="44" font-size="20" font-weight="700" fill="#1F2124">Relevé</text><line class="ln" x1="20" y1="80" x2="128" y2="80"/><line class="lnr" x1="20" y1="110" x2="80" y2="110"/><line class="ln" x1="20" y1="140" x2="110" y2="140"/></g>
+        <g class="doc"><rect class="card" x="0" y="0" width="150" height="190" rx="12"/><text x="20" y="44" font-size="20" font-weight="700" fill="#1F2124">Frais</text><line class="ln" x1="20" y1="80" x2="110" y2="80"/><line class="ln" x1="20" y1="110" x2="128" y2="110"/><line class="lnr" x1="20" y1="140" x2="70" y2="140"/></g>
+        <g class="ok"><circle class="redfill" cx="390" cy="395" r="44"/><path d="M370 396 l14 14 l26 -28" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </svg></div>
     </div>
 
-    <!-- 2. Titre -->
-    <div class="layer" id="title">
-      <h1>
-        <span class="mask"><span>LUGASSY EXPERTISE</span></span>
-      </h1>
-      <div class="rule"></div>
-      <p>Expert-comptable <em>&amp;</em><br class="br"> Commissaire aux comptes</p>
-    </div>
-
-    <!-- 3. Métiers -->
-    <div class="layer" id="services">
-      <div class="list">
-        <div class="svc"><span class="sep"></span><span class="num">01</span>
-          <svg viewBox="0 0 48 48"><rect x="11" y="5" width="26" height="38" rx="3"/><rect x="16" y="10" width="16" height="7" rx="1"/><path d="M17 24h2M23.5 24h1M29 24h2M17 30h2M23.5 30h1M29 30h2M17 36h2M23.5 36h1M29 36h2"/></svg>
-          <div class="lbl">Expertise<br class="br"> comptable</div></div>
-        <div class="svc"><span class="sep"></span><span class="num">02</span>
-          <svg viewBox="0 0 48 48"><path d="M13 5h16l8 8v30H13z"/><path d="M29 5v8h8"/><path d="M19 35l12-12"/><circle cx="20" cy="24" r="2.3"/><circle cx="30" cy="34" r="2.3"/></svg>
-          <div class="lbl">Fiscalité</div></div>
-        <div class="svc"><span class="sep"></span><span class="num">03</span>
-          <svg viewBox="0 0 48 48"><circle cx="21" cy="21" r="13"/><path d="M30.5 30.5L41 41"/><path d="M15.5 21.5l4 4 7.5-8"/></svg>
-          <div class="lbl">Audit &amp;<br class="br"> Commissariat aux comptes</div></div>
-        <div class="svc"><span class="sep"></span><span class="num">04</span>
-          <svg viewBox="0 0 48 48"><path d="M24 6v35M16 42h16M9 12h30"/><path d="M9 12L4.5 25M9 12l4.5 13M39 12l-4.5 13M39 12l4.5 13"/><path d="M4 25h10a5 5 0 0 1-10 0zM34 25h10a5 5 0 0 1-10 0z"/></svg>
-          <div class="lbl">Juridique</div></div>
+    <!-- Étape 2 -->
+    <div class="step">
+      <div class="txt">
+        <div class="num m"><span>02</span></div>
+        <h4><span class="m"><span>On tient vos comptes.</span></span></h4>
+        <p>Saisie, TVA, paie, déclarations&nbsp;: <b>tout est à jour et déposé à temps.</b> Zéro retard, zéro pénalité.</p>
       </div>
+      <div class="ill"><svg viewBox="0 0 780 520">
+        <rect class="card" x="90" y="20" width="600" height="480" rx="20"/>
+        <rect class="redfill" x="90" y="20" width="600" height="76" rx="20"/><rect class="redfill" x="90" y="70" width="600" height="26"/>
+        <text x="130" y="70" font-size="28" font-weight="700" fill="#fff">Vos échéances</text>
+        <g class="cells"></g>
+      </svg></div>
     </div>
 
-    <!-- 5. Accroche -->
-    <div class="layer" id="tagline">
-      <div class="since">Depuis <b id="year">2010</b></div>
-      <div class="rule"></div>
-      <p>aux côtés des entreprises<br class="br"> d’Île-de-France</p>
+    <!-- Étape 3 -->
+    <div class="step">
+      <div class="txt">
+        <div class="num m"><span>03</span></div>
+        <h4><span class="m"><span>On analyse.</span></span></h4>
+        <p>Bilan, tableaux de bord, marges&nbsp;: <b>vos chiffres deviennent lisibles</b> — vous savez où vous en êtes.</p>
+      </div>
+      <div class="ill"><svg viewBox="0 0 780 520">
+        <path class="gstroke" d="M60 460 H740 M60 460 V40"/>
+        <g class="bars"></g>
+        <path class="stroke trend" d="M120 380 C220 360 260 300 330 290 S470 210 540 180 S650 90 700 70"/>
+        <g class="tip"><rect class="redfill" x="560" y="0" width="190" height="56" rx="28"/><text x="655" y="37" text-anchor="middle" font-size="24" font-weight="700" fill="#fff">Rentable ✓</text></g>
+      </svg></div>
     </div>
 
-    <!-- 6. Fin -->
-    <div class="layer" id="end">
-      <div class="rule"></div>
-      <div class="url">www.lugassy-expertise.fr</div>
-      <div class="loc">Paris 16<sup style="font-size:.6em;letter-spacing:0">e</sup></div>
+    <!-- Étape 4 -->
+    <div class="step">
+      <div class="txt">
+        <div class="num m"><span>04</span></div>
+        <h4><span class="m"><span>On vous conseille.</span></span></h4>
+        <p>Optimiser vos impôts, choisir votre statut, investir, recruter&nbsp;: <b>on anticipe chaque décision avec vous.</b></p>
+      </div>
+      <div class="ill"><svg viewBox="0 0 780 520">
+        <rect class="stair card" x="80"  y="380" width="150" height="110" rx="10"/>
+        <rect class="stair card" x="250" y="300" width="150" height="190" rx="10"/>
+        <rect class="stair card" x="420" y="210" width="150" height="280" rx="10"/>
+        <rect class="stair card" x="590" y="110" width="150" height="380" rx="10"/>
+        <path class="stroke arrow" d="M100 330 C220 300 280 250 360 220 S520 120 690 50"/>
+        <path class="stroke head" d="M650 44 L692 49 L676 88"/>
+        <g class="pill"><rect class="redfill" x="70" y="40" width="170" height="54" rx="27"/><text x="155" y="76" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">Fiscalité</text></g>
+        <g class="pill"><rect x="70" y="110" width="170" height="54" rx="27" fill="#1F2124"/><text x="155" y="146" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">Juridique</text></g>
+        <g class="pill"><rect x="70" y="180" width="170" height="54" rx="27" fill="#fff" stroke="#1F2124" stroke-width="2.5"/><text x="155" y="216" text-anchor="middle" font-size="22" font-weight="700" fill="#1F2124">Croissance</text></g>
+      </svg></div>
     </div>
   </div>
+
+  <!-- ===== 4. Pourquoi Lugassy Expertise ===== -->
+  <div class="layer" id="why">
+    <div class="glow"></div>
+    <div class="head">
+      <div class="kicker m"><span>La différence</span></div>
+      <h3><span class="m"><span>Pourquoi <span class="red">Lugassy</span></span></span> <span class="m"><span><span class="red">Expertise</span>&nbsp;?</span></span></h3>
+    </div>
+    <div class="list">
+      <div class="arg"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/><path d="M19 33l9 9 18-20"/></svg>
+        <div><div class="tag">Double qualification</div><h5><span class="m"><span>Expert-comptable <span class="red">et</span></span></span><span class="m"><span>commissaire aux comptes</span></span></h5><p>Vos comptes tenus avec l’exigence d’un auditeur.</p></div></div>
+      <div class="arg"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/><path d="M19 33l9 9 18-20"/></svg>
+        <div><div class="tag">Proximité</div><h5><span class="m"><span>Un expert qui connaît</span></span><span class="m"><span>votre dossier</span></span></h5><p>Un interlocuteur direct, qui décroche et vous répond.</p></div></div>
+      <div class="arg"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/><path d="M19 33l9 9 18-20"/></svg>
+        <div><div class="tag">Expérience</div><h5><span class="m"><span>Depuis 2010</span></span><span class="m"><span>en Île-de-France</span></span></h5><p>Plus de 15 ans à faire grandir des entreprises.</p></div></div>
+      <div class="arg"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30"/><path d="M19 33l9 9 18-20"/></svg>
+        <div><div class="tag">Tout-en-un</div><h5><span class="m"><span>Comptable, fiscal,</span></span><span class="m"><span>audit, juridique</span></span></h5><p>Un seul cabinet pour toute la vie de votre entreprise.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ===== 5. Fin ===== -->
+  <div class="layer center" id="end">
+    <div id="endSpace"></div>
+    <div class="tl"><span class="m"><span>Vos chiffres en ordre.</span></span><span class="m"><span class="red">Votre esprit libre.</span></span></div>
+    <div class="cta">Prenons rendez-vous<span class="ring"></span></div>
+    <div class="url">www.lugassy-expertise.fr</div>
+    <div class="addr">1 rue Dufrenoy<span class="sep"> · </span><br class="br"><b>Paris 16<sup style="font-size:.6em;letter-spacing:0">e</sup></b></div>
+  </div>
+
+  <!-- ===== Volet rouge : promesse ===== -->
+  <div class="layer center" id="wipe">
+    <h2><span class="m"><span>Concentrez-vous</span></span><span class="m"><span>sur votre métier.</span></span><span class="m"><span class="light">On s’occupe du reste.</span></span></h2>
+    <div class="ul"></div>
+  </div>
+
+  <!-- ===== 2. Logo (au-dessus de tout, réutilisé à la fin) ===== -->
+  <div class="layer center" id="logoLayer">
+    <div id="logo">
+      <img id="logoImg" alt="Lugassy Expertise">
+      <svg id="logoFallback" viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="25" width="150" height="150" fill="var(--red)"/>
+        <text x="75" y="142" text-anchor="middle" font-family="Montserrat" font-weight="700" font-size="112" fill="#fff">L</text>
+        <text x="180" y="102" font-family="Montserrat" font-weight="600" font-size="62" letter-spacing="6" fill="#1F2124">LUGASSY</text>
+        <text x="182" y="160" font-family="Montserrat" font-weight="500" font-size="38" letter-spacing="14" fill="var(--red)">EXPERTISE</text>
+      </svg>
+    </div>
+    <div id="sweep"></div>
+    <div id="logoSub">Expert-comptable <b>&amp;</b> Commissaire aux comptes<br>Paris 16<sup style="font-size:.6em">e</sup> · Île-de-France</div>
+  </div>
+</div>
 </div>
 
 <div id="controls">
@@ -213,7 +331,6 @@
 
 <script src="vendor/gsap.min.js"></script>
 <script>
-  // Repli CDN si le dossier vendor/ est absent
   if (!window.gsap) document.write('<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"><\/script>');
 </script>
 <script>
@@ -221,268 +338,253 @@
   const q = new URLSearchParams(location.search);
   const RENDER = q.has('render');
   const FORMAT = q.get('format') === '916' ? '916' : '169';
-  const DURATION = 15;
+  const DURATION = 30;
   window.DURATION = DURATION;
 
   const stage = document.getElementById('stage');
   stage.className = 'f' + FORMAT;
   if (RENDER) document.body.classList.add('render');
-  const W = FORMAT === '169' ? 1920 : 1080;
-  const H = FORMAT === '169' ? 1080 : 1920;
   const V = FORMAT === '916';
+  const W = V ? 1080 : 1920, H = V ? 1920 : 1080;
+  const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
 
-  // Titre : une ligne en 16:9, deux lignes en 9:16
-  document.querySelector('#title h1').innerHTML = V
-    ? '<span class="mask"><span>LUGASSY</span></span><span class="mask"><span>EXPERTISE</span></span>'
-    : '<span class="mask"><span>LUGASSY EXPERTISE</span></span>';
-
-  // ---------- Mise à l'échelle de l'aperçu ----------
   function fit() {
     if (RENDER) return;
     const vp = document.getElementById('viewport');
-    const s = Math.min((vp.clientWidth - 32) / W, (vp.clientHeight - 32) / H);
-    stage.style.transform = 'scale(' + s + ')';
+    stage.style.transform = 'scale(' + Math.min((vp.clientWidth - 32) / W, (vp.clientHeight - 32) / H) + ')';
   }
   addEventListener('resize', fit); fit();
 
-  // ---------- Logo + couleur ----------
-  const img = document.getElementById('logoImg');
-  const fallback = document.getElementById('logoFallback');
-  const logoReady = new Promise(res => {
-    img.onload = () => res(true);
-    img.onerror = () => res(false);
-    img.src = 'logo.png';
-  });
+  // ---------- Logo + rouge exact ----------
+  const img = $('#logoImg'), fallback = $('#logoFallback');
+  const logoReady = new Promise(res => { img.onload = () => res(true); img.onerror = () => res(false); img.src = 'logo.png'; });
 
   function sampleRed(im) {
     try {
-      const c = document.createElement('canvas');
-      const k = Math.min(1, 300 / im.naturalWidth);
-      c.width = Math.max(1, Math.round(im.naturalWidth * k));
-      c.height = Math.max(1, Math.round(im.naturalHeight * k));
-      const x = c.getContext('2d');
-      x.drawImage(im, 0, 0, c.width, c.height);
-      const d = x.getImageData(0, 0, c.width, c.height).data;
-      const bins = {};
+      const c = document.createElement('canvas'), k = Math.min(1, 300 / im.naturalWidth);
+      c.width = Math.max(1, Math.round(im.naturalWidth * k)); c.height = Math.max(1, Math.round(im.naturalHeight * k));
+      const x = c.getContext('2d'); x.drawImage(im, 0, 0, c.width, c.height);
+      const d = x.getImageData(0, 0, c.width, c.height).data, bins = {};
       for (let i = 0; i < d.length; i += 4) {
-        const r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
-        if (a < 200 || r < 110 || r < g * 1.7 || r < b * 1.7) continue;
+        const r = d[i], g = d[i + 1], b = d[i + 2];
+        if (d[i + 3] < 200 || r < 110 || r < g * 1.7 || r < b * 1.7) continue;
         const key = (r >> 3) + ',' + (g >> 3) + ',' + (b >> 3);
-        (bins[key] = bins[key] || [0, 0, 0, 0]);
-        bins[key][0] += r; bins[key][1] += g; bins[key][2] += b; bins[key][3]++;
+        const e = bins[key] = bins[key] || [0, 0, 0, 0]; e[0] += r; e[1] += g; e[2] += b; e[3]++;
       }
-      let best = null;
-      for (const k2 in bins) if (!best || bins[k2][3] > best[3]) best = bins[k2];
+      let best = null; for (const k2 in bins) if (!best || bins[k2][3] > best[3]) best = bins[k2];
       if (!best || best[3] < 20) return null;
       const h = v => Math.round(v / best[3]).toString(16).padStart(2, '0');
       return '#' + h(best[0]) + h(best[1]) + h(best[2]);
-    } catch (e) { return null; } // file:// : canvas protégé, on garde la couleur par défaut
+    } catch (e) { return null; } // file:// : canvas protégé, couleur par défaut
   }
-
-  // ---------- Décor (grille, courbes, chiffres) ----------
-  function buildDecor() {
-    const ns = 'http://www.w3.org/2000/svg';
-    const bg = document.getElementById('bg');
-    bg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    const grid = bg.querySelector('.grid');
-    const step = V ? 160 : 135;
-    for (let y = step; y < H; y += step) {
-      const l = document.createElementNS(ns, 'line');
-      l.setAttribute('x1', 0); l.setAttribute('x2', W); l.setAttribute('y1', y); l.setAttribute('y2', y);
-      grid.appendChild(l);
-    }
-    // Courbe ascendante (tiers inférieur), douce
-    const pts = [];
-    const n = 7, y0 = H * (V ? .93 : .92), y1 = H * (V ? .76 : .73);
-    for (let i = 0; i <= n; i++) {
-      const t = i / n;
-      const wob = Math.sin(t * Math.PI * 2.2) * H * .018;
-      pts.push([W * (-.02 + t * 1.04), y0 - (y0 - y1) * Math.pow(t, 1.35) + wob]);
-    }
-    const smooth = P => {
-      let d = `M${P[0][0]},${P[0][1]}`;
-      for (let i = 0; i < P.length - 1; i++) {
-        const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
-        const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-        const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-        d += ` C${c1},${c2},${p2}`;
-      }
-      return d;
-    };
-    bg.querySelector('.curve').setAttribute('d', smooth(pts));
-    bg.querySelector('.curve2').setAttribute('d', smooth(pts.map(([x, y], i) => [x, y + H * .035 + Math.cos(i) * H * .008])));
-    const dots = bg.querySelector('.dots');
-    [2, 4, 6].forEach(i => {
-      const c = document.createElementNS(ns, 'circle');
-      c.setAttribute('cx', pts[i][0]); c.setAttribute('cy', pts[i][1]); c.setAttribute('r', V ? 7 : 6);
-      c.setAttribute('class', 'dot'); dots.appendChild(c);
-    });
-    // Barres fines en bas à droite
-    const bars = bg.querySelector('.bars');
-    const bx = W * (V ? .62 : .76), bw = V ? 34 : 30, base = H * (V ? .985 : .975);
-    [.05, .08, .07, .11, .14].forEach((h, i) => {
-      const l = document.createElementNS(ns, 'line');
-      const x = bx + i * bw;
-      l.setAttribute('x1', x); l.setAttribute('x2', x); l.setAttribute('y1', base); l.setAttribute('y2', base - H * h);
-      l.setAttribute('class', 'bar'); bars.appendChild(l);
-    });
-    // Chiffres décoratifs (valeurs neutres de type « écriture comptable »)
-    const figs = document.getElementById('figs');
-    const spots = V
-      ? [[70, 130, 12480], [W - 300, 430, 3215], [70, H - 330, 87640], [W - 320, H - 470, 45200]]
-      : [[90, 90, 12480], [W - 300, 90, 3215], [90, 330, 87640], [W - 320, 330, 45200]];
-    spots.forEach(([x, y, v], i) => {
-      const s = document.createElement('div');
-      s.className = 'fig'; s.style.left = x + 'px'; s.style.top = y + 'px';
-      s.dataset.v = v;
-      s.innerHTML = (i === 3 ? '<b>+</b> ' : '') + '<span>0</span>,00';
-      figs.appendChild(s);
-    });
-  }
-
-  const fmt = v => Math.round(v).toLocaleString('fr-FR').replace(/ | /g, ' ');
 
   function prepDraw(el) {
-    const L = el.getTotalLength ? el.getTotalLength() : 0;
-    el.style.strokeDasharray = L + ' ' + L;
-    el.style.strokeDashoffset = L;
-    return L;
+    const L = el.getTotalLength();
+    el.style.strokeDasharray = L + ' ' + L; el.style.strokeDashoffset = L;
   }
 
-  // ---------- Timeline ----------
+  // ---------- Illustrations générées ----------
+  function buildIll() {
+    const ns = 'http://www.w3.org/2000/svg';
+    const mk = (tag, a, parent) => { const e = document.createElementNS(ns, tag); for (const k in a) e.setAttribute(k, a[k]); parent.appendChild(e); return e; };
+    const steps = $$('.step');
+    // Calendrier : 12 mois qui se cochent
+    const cells = steps[1].querySelector('.cells');
+    ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUIN', 'JUIL', 'AOÛT', 'SEPT', 'OCT', 'NOV', 'DÉC'].forEach((m, i) => {
+      const cx = 120 + (i % 4) * 140, cy = 125 + Math.floor(i / 4) * 122;
+      const g = mk('g', { class: 'cell' }, cells);
+      mk('rect', { x: cx, y: cy, width: 120, height: 104, rx: 12, fill: '#F4F4F5' }, g);
+      mk('text', { x: cx + 16, y: cy + 34, 'font-size': 18, 'font-weight': 600, fill: '#6E7177' }, g).textContent = m;
+      const c = mk('g', { class: 'tick', 'data-o': `${cx + 88} ${cy + 70}` }, g);
+      mk('circle', { cx: cx + 88, cy: cy + 70, r: 18, class: 'redfill' }, c);
+      mk('path', { d: `M${cx + 80} ${cy + 70} l6 6 l11 -12`, fill: 'none', stroke: '#fff', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, c);
+    });
+    // Barres
+    const bars = steps[2].querySelector('.bars');
+    [120, 150, 140, 200, 250, 320].forEach((h, i) => {
+      mk('rect', { x: 100 + i * 105, y: 460 - h, width: 64, height: h, rx: 8, class: 'bar' + (i === 5 ? ' hi' : '') }, bars);
+    });
+  }
+
+  function layoutStatic() {
+    const pos = V
+      ? [[.08, .12, -4], [.58, .2, 3], [.1, .66, 2], [.55, .76, -3], [.2, .42, 1]]
+      : [[.1, .14, -4], [.66, .12, 3], [.06, .7, 2], [.62, .72, -3], [.36, .4, 1]];
+    $$('.word').forEach((w, i) => { w.style.left = pos[i][0] * W + 'px'; w.style.top = pos[i][1] * H + 'px'; w.dataset.rot = pos[i][2]; });
+    const b = $$('#how .blob'), s0 = V ? 900 : 760, s1 = V ? 520 : 420;
+    Object.assign(b[0].style, { width: s0 + 'px', height: s0 + 'px', left: (W - s0 * .55) + 'px', top: (-s0 * .45) + 'px' });
+    Object.assign(b[1].style, { width: s1 + 'px', height: s1 + 'px', left: (-s1 * .5) + 'px', top: (H - s1 * .55) + 'px' });
+    const g = $('#why .glow'), gs = V ? 1300 : 1200;
+    Object.assign(g.style, { width: gs + 'px', height: gs + 'px', left: (W - gs * .6) + 'px', top: (H - gs * .6) + 'px' });
+    $('#endSpace').style.height = (V ? 300 : 210) + 'px';
+  }
+
+  // ---------- Timeline (30 s) ----------
   function build(hasLogo) {
     const red = q.get('red') ? '#' + q.get('red').replace('#', '') : (hasLogo ? sampleRed(img) : null);
     if (red) document.documentElement.style.setProperty('--red', red);
     window.__RED = getComputedStyle(document.documentElement).getPropertyValue('--red').trim();
 
-    const logo = document.getElementById('logo');
     let lw, lh;
     if (hasLogo) {
-      const ar = img.naturalWidth / img.naturalHeight;
-      const maxW = V ? 760 : 680, maxH = V ? 380 : 320;
+      const ar = img.naturalWidth / img.naturalHeight, maxW = V ? 780 : 700, maxH = V ? 420 : 340;
       lw = Math.min(maxW, maxH * ar); lh = lw / ar;
       img.style.width = lw + 'px'; img.style.height = lh + 'px';
     } else {
       img.style.display = 'none'; fallback.style.display = 'block';
-      lw = V ? 760 : 640; lh = lw * 200 / 640;
+      lw = V ? 780 : 680; lh = lw * 200 / 640;
       fallback.style.width = lw + 'px'; fallback.style.height = lh + 'px';
     }
-    const mark = hasLogo ? img : fallback;
-
-    const sweep = document.getElementById('sweep');
-    const sw = lw * 1.12;
+    const logo = $('#logo'), mark = hasLogo ? img : fallback, sweep = $('#sweep'), sub = $('#logoSub');
+    const sw = lw * 1.1;
     sweep.style.width = sw + 'px'; sweep.style.marginLeft = (-sw / 2) + 'px';
+    sub.style.top = (H / 2 + lh / 2 + (V ? 90 : 70)) + 'px';
 
-    buildDecor();
+    buildIll(); layoutStatic();
 
-    const E = 'power2.inOut', O = 'power3.out', I = 'power2.in';
-    const tl = gsap.timeline({ paused: true, defaults: { ease: E } });
-    const headerH = V ? 130 : 96;
-    const headerS = Math.min(headerH / lh, (V ? 420 : 380) / lw);
-    const headerY = -(H / 2) + (V ? 230 : 120) + 0;
-    const endS = V ? .9 : .82;
-    const endY = V ? -150 : -110;
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+    const X = 'expo.out', IO = 'power4.inOut';
+    const up = (sel, t, st = .1, d = .8) => tl.fromTo(sel, { yPercent: 115 }, { yPercent: 0, duration: d, stagger: st, ease: X }, t);
+    const fadeUp = (sel, t, d = .7, y = 24) => tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: 'power3.out' }, t);
 
-    // Décor : états initiaux
-    const gridLines = document.querySelectorAll('#bg .grid line');
-    gsap.set(gridLines, { scaleX: 0, transformOrigin: '0 0', opacity: 1 });
-    const curve = document.querySelector('#bg .curve'), curve2 = document.querySelector('#bg .curve2');
-    prepDraw(curve); prepDraw(curve2);
-    gsap.set('#bg .dot', { scale: 0, transformOrigin: '50% 50%', transformBox: 'fill-box' });
-    gsap.set('#bg .bar', { scaleY: 0, transformOrigin: '50% 100%', transformBox: 'fill-box' });
+    // ===== 1. Accroche (0 → 4 s) =====
+    $$('.word').forEach((w, i) => {
+      tl.fromTo(w, { opacity: 0, scale: 1.7, rotation: 0 }, { opacity: 1, scale: 1, rotation: +w.dataset.rot, duration: .5, ease: X }, .15 + i * .3);
+    });
+    tl.to('.word', { x: i => (i % 2 ? 14 : -14), y: i => (i % 3 ? -10 : 10), duration: 1.6, ease: 'none' }, .6);
+    tl.to('.word', { opacity: .07, scale: .94, duration: .5, ease: 'power2.inOut' }, 1.95);
+    up('#q .m > span', 2.1, .14, .9);
+    tl.fromTo('#q .ca', { scale: .6 }, { scale: 1, duration: .7, ease: 'back.out(2.2)' }, 2.45);
+    tl.to('#q h2', { scale: 1.04, duration: 1.8, ease: 'none' }, 2.1);
 
-    // 1 — Ligne rouge + révélation du logo  (0 → 2.6 s)
-    gsap.set(logo, { opacity: 0, scale: .955 });
+    // ===== Volet rouge : la promesse (3.9 → 6.9 s) =====
+    gsap.set("#wipe", { xPercent: -100, x: 0, visibility: "visible" });
+    tl.to('#wipe', { xPercent: 0, duration: .65, ease: IO }, 3.9);
+    tl.set('#words, #q', { opacity: 0 }, 4.6);
+    up('#wipe .m > span', 4.3, .16, .9);
+    tl.to('#wipe .ul', { scaleX: 1, duration: .8, ease: IO }, 5.0);
+    tl.to('#wipe h2', { scale: 1.03, duration: 2.2, ease: 'none' }, 4.3);
+    tl.to('#wipe', { xPercent: 100, duration: .7, ease: IO }, 6.25);
+
+    // ===== 2. Logo (6.5 → 9.5 s) =====
+    gsap.set(logo, { opacity: 0, scale: .94 });
     gsap.set(mark, { clipPath: 'inset(0% 0% 100% 0%)' });
-    gsap.set(sweep, { y: -lh / 2 - 6, scaleX: 0 });
-    tl.to(sweep, { scaleX: 1, duration: 1.0 }, .3)
-      .to(sweep, { y: lh / 2 + 22, duration: 1.15, ease: 'power2.inOut' }, 1.25)
-      .to(mark, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.15, ease: 'power2.inOut' }, 1.25)
-      .to(logo, { opacity: 1, duration: .7, ease: 'power1.out' }, 1.25)
-      .to(logo, { scale: 1, duration: 1.8, ease: 'power2.out' }, 1.25)
-      .to(sweep, { scaleX: 90 / sw, duration: .7, ease: 'power3.inOut' }, 2.35);
+    gsap.set(sweep, { y: -lh / 2 - 8, scaleX: 0 });
+    tl.to(sweep, { scaleX: 1, duration: .55, ease: IO }, 6.55)
+      .to(sweep, { y: lh / 2 + 26, duration: .8, ease: 'power2.inOut' }, 7.05)
+      .to(mark, { clipPath: 'inset(0% 0% 0% 0%)', duration: .8, ease: 'power2.inOut' }, 7.05)
+      .to(logo, { opacity: 1, duration: .4, ease: 'power1.out' }, 7.05)
+      .to(logo, { scale: 1, duration: 1.8, ease: 'power2.out' }, 7.05)
+      .to(sweep, { scaleX: 110 / sw, duration: .5, ease: IO }, 7.85);
+    fadeUp(sub, 7.9);
+    tl.to([logo, sweep, sub], { opacity: 0, y: '-=30', duration: .45, ease: 'power2.in' }, 9.05);
 
-    // 2 — Logo en en-tête + titre  (2.9 → 5.4 s)
-    tl.to(sweep, { opacity: 0, duration: .4 }, 2.95)
-      .to(logo, { y: headerY, scale: headerS, duration: 1.0, ease: 'power3.inOut' }, 2.95)
-      .to(gridLines, { scaleX: 1, duration: 1.6, stagger: .06, ease: 'power2.out' }, 2.9)
-      .from('#title h1 .mask > span', { yPercent: 105, duration: .9, stagger: .12, ease: O }, 3.45)
-      .from('#title h1', { letterSpacing: '.3em', duration: 1.4, ease: 'power3.out' }, 3.45)
-      .to('#title .rule', { scaleX: 1, duration: .7, ease: O }, 3.9)
-      .fromTo('#title p', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .8, ease: O }, 4.05);
+    // ===== 3. Comment ça marche (9.3 → 19.4 s) =====
+    tl.set('#how', { opacity: 1 }, 9.3);
+    tl.fromTo('#how .blob', { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, stagger: .2 }, 9.3);
+    tl.to('#how .blob', { rotation: 25, x: i => (i ? 60 : -80), y: i => (i ? -40 : 50), duration: 10, ease: 'none' }, 9.3);
+    up('#how .kicker > span', 9.35, 0, .8);
+    up('#how h3 .m > span', 9.45, 0, .9);
+    tl.fromTo('#how .seg', { scaleX: 0 }, { scaleX: 1, duration: .7, stagger: .08, ease: X }, 9.6);
 
-    tl.to('#title h1, #title .rule, #title p', { opacity: 0, y: -24, duration: .55, stagger: .05, ease: I }, 5.4);
-
-    // 4 — Décor qui monte (5.0 → 12 s)
-    // Courbe tracée à vitesse constante : chaque point apparaît quand la courbe l'atteint
-    tl.to(curve2, { strokeDashoffset: 0, duration: 6.5, ease: 'none' }, 5.0)
-      .to(curve, { strokeDashoffset: 0, duration: 6.5, ease: 'none' }, 5.25);
-    [2, 4, 6].forEach((k, i) => {
-      tl.to(document.querySelectorAll('#bg .dot')[i], { scale: 1, duration: .5, ease: 'back.out(2)' }, 5.25 + 6.5 * k / 7 - .15);
+    const steps = $$('.step'), STEP = 2.35, T0 = 10.0;
+    steps.forEach((s, i) => {
+      const t = T0 + i * STEP;
+      gsap.set(s, { opacity: 0 });
+      tl.set(s, { opacity: 1 }, t);
+      up(s.querySelector('.num > span'), t, 0, .8);
+      up(s.querySelector('h4 .m > span'), t + .08, 0, .8);
+      fadeUp(s.querySelector('p'), t + .25);
+      tl.fromTo(s.querySelector('.ill'), { opacity: 0, x: V ? 0 : 60, y: V ? 40 : 0 }, { opacity: 1, x: 0, y: 0, duration: .8, ease: X }, t + .1);
+      tl.to($$('#how .seg i')[i], { scaleX: 1, duration: STEP - .1, ease: 'none' }, t);
+      if (i < steps.length - 1) {
+        tl.to(s.querySelectorAll('.txt, .ill'), { opacity: 0, x: V ? 0 : -50, y: V ? -30 : 0, duration: .35, stagger: .04, ease: 'power2.in' }, t + STEP - .35);
+      }
     });
-    tl
-      .to('#bg .bar', { scaleY: 1, duration: 1.2, stagger: .12, ease: O }, 6.0)
-      .to('.fig', { opacity: .75, duration: 1.2, stagger: .3, ease: 'power1.out' }, 5.6);
-    document.querySelectorAll('.fig').forEach((f, i) => {
-      const s = f.querySelector('span'); if (!s) return;
-      const o = { v: 0 };
-      tl.to(o, { v: +f.dataset.v, duration: 2.6, ease: 'power2.out', onUpdate: () => { s.textContent = fmt(o.v); } }, 5.6 + i * .3);
+    // Étape 1 : les documents tombent dans le dossier
+    (() => {
+      const s = steps[0], t = T0 + .25;
+      const from = [[40, -40, -14], [310, -90, 6], [590, -30, 12]];
+      const to = [[250, 230, -8], [315, 215, 2], [380, 230, 9]];
+      s.querySelectorAll('.doc').forEach((d, i) => {
+        tl.fromTo(d, { x: from[i][0], y: from[i][1], rotation: from[i][2], opacity: 0, transformOrigin: '50% 50%' },
+          { x: to[i][0], y: to[i][1], rotation: to[i][2], opacity: 1, duration: .85, ease: 'power3.inOut' }, t + i * .2);
+      });
+      tl.fromTo(s.querySelector('.ok'), { scale: 0, transformOrigin: '50% 50%', transformBox: 'fill-box' }, { scale: 1, duration: .55, ease: 'back.out(2.4)' }, t + 1.2);
+    })();
+    // Étape 2 : les mois se cochent
+    (() => {
+      const s = steps[1], t = T0 + STEP + .3;
+      tl.fromTo(s.querySelectorAll('.cell'), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .4, stagger: .03, ease: X }, t);
+      s.querySelectorAll('.tick').forEach((k, j) => {
+        tl.fromTo(k, { scale: 0, svgOrigin: k.dataset.o }, { scale: 1, svgOrigin: k.dataset.o, duration: .35, ease: 'back.out(2.6)' }, t + .2 + j * .06);
+      });
+    })();
+    // Étape 3 : barres + courbe
+    (() => {
+      const s = steps[2], t = T0 + STEP * 2 + .25;
+      tl.fromTo(s.querySelectorAll('.bar'), { scaleY: 0, transformOrigin: '50% 100%', transformBox: 'fill-box' }, { scaleY: 1, duration: .7, stagger: .08, ease: X }, t);
+      const tr = s.querySelector('.trend'); prepDraw(tr);
+      tl.to(tr, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut' }, t + .3);
+      tl.fromTo(s.querySelector('.tip'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5, ease: 'back.out(2)' }, t + 1.25);
+    })();
+    // Étape 4 : marches + flèche + pastilles
+    (() => {
+      const s = steps[3], t = T0 + STEP * 3 + .25;
+      tl.fromTo(s.querySelectorAll('.stair'), { scaleY: 0, transformOrigin: '50% 100%', transformBox: 'fill-box' }, { scaleY: 1, duration: .6, stagger: .1, ease: X }, t);
+      const ar = s.querySelector('.arrow'), hd = s.querySelector('.head'); prepDraw(ar); prepDraw(hd);
+      tl.to(ar, { strokeDashoffset: 0, duration: .9, ease: 'power2.inOut' }, t + .35);
+      tl.to(hd, { strokeDashoffset: 0, duration: .3, ease: 'power2.out' }, t + 1.2);
+      tl.fromTo(s.querySelectorAll('.pill'), { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: .5, stagger: .15, ease: X }, t + .5);
+    })();
+
+    // ===== 4. Pourquoi Lugassy (19.35 → 26.7 s) =====
+    const TW = 19.35;
+    tl.to('#why', { clipPath: 'inset(0% 0 0 0)', duration: .8, ease: IO }, TW);
+    tl.set('#how', { opacity: 0 }, TW + .8);
+    tl.fromTo('#why .glow', { scale: .7, opacity: 0 }, { scale: 1.15, opacity: 1, duration: 7, ease: 'sine.inOut' }, TW);
+    up('#why .kicker > span', TW + .45, 0, .8);
+    up('#why h3 .m > span', TW + .55, .12, .9);
+    $$('.arg').forEach((a, i) => {
+      const t = TW + 1.55 + i * 1.3;
+      tl.fromTo(a.querySelector('svg'), { scale: 0, transformOrigin: '50% 50%' }, { scale: 1, duration: .5, ease: 'back.out(2.4)' }, t);
+      const ck = a.querySelector('path'); prepDraw(ck);
+      tl.to(ck, { strokeDashoffset: 0, duration: .45, ease: 'power2.out' }, t + .2);
+      tl.fromTo(a.querySelector('.tag'), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: .5 }, t + .05);
+      up(a.querySelectorAll('h5 .m > span'), t + .1, .08, .8);
+      fadeUp(a.querySelector('p'), t + .4, .6, 14);
     });
 
-    // 3 — Les 4 métiers  (5.8 → 9.4 s)
-    const svcs = gsap.utils.toArray('.svc');
-    svcs.forEach((el, i) => {
-      const t = 5.85 + i * .7;
-      const strokes = el.querySelectorAll('svg path, svg rect, svg circle');
-      strokes.forEach(prepDraw);
-      tl.fromTo(el, { opacity: 0, y: V ? 0 : 26, x: V ? -30 : 0 }, { opacity: 1, y: 0, x: 0, duration: .8, ease: O }, t)
-        .to(strokes, { strokeDashoffset: 0, duration: 1.1, stagger: .08, ease: 'power2.out' }, t + .1)
-        .from(el.querySelector('.lbl'), { opacity: 0, y: 12, duration: .7, ease: O }, t + .3)
-        .from(el.querySelector('.sep'), { scaleX: V ? 0 : 1, scaleY: V ? 1 : 0, duration: .8, ease: O }, t);
-    });
-    tl.to(svcs, { opacity: 0, y: V ? 0 : -20, x: 0, duration: .5, stagger: .06, ease: I }, 9.4);
-
-    // 5 — Accroche  (10.0 → 12.0 s)
-    const yr = document.getElementById('year'), yo = { v: 2000 };
-    tl.fromTo('#tagline .since', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .9, ease: O }, 9.95)
-      .to(yo, { v: 2010, duration: 1.1, ease: 'power3.out', onUpdate: () => { yr.textContent = Math.round(yo.v); } }, 9.95)
-      .to('#tagline .rule', { scaleX: 1, duration: .7, ease: O }, 10.5)
-      .fromTo('#tagline p', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .9, ease: O }, 10.65)
-      .to('#tagline .since, #tagline .rule, #tagline p', { opacity: 0, y: -22, duration: .55, stagger: .05, ease: I }, 12.1);
-
-    // 6 — Fin : logo centré + site + Paris 16e  (12.6 → 15 s)
-    tl.to(logo, { y: endY, scale: endS, duration: 1.1, ease: 'power3.inOut' }, 12.6)
-      .to('#bg .grid, #figs', { opacity: .45, duration: 1, ease: 'power1.inOut' }, 12.3)
-      .to('#end .rule', { scaleX: 1, duration: .7, ease: O }, 13.25)
-      .fromTo('#end .url', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .8, ease: O }, 13.4)
-      .fromTo('#end .loc', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .8, ease: O }, 13.65)
-      .set({}, {}, DURATION);
-
+    // ===== 5. Fin (26.7 → 30 s) =====
+    const TE = 26.7;
+    tl.to('#end', { clipPath: 'circle(75% at 50% 50%)', duration: .9, ease: IO }, TE);
+    tl.set('#why', { opacity: 0 }, TE + .9);
+    const endY = -(V ? 420 : 270), endS = V ? .78 : .62;
+    tl.set(logo, { y: endY, scale: endS * .9, opacity: 0 }, TE)
+      .set(sweep, { opacity: 0 }, TE)
+      .to(logo, { opacity: 1, scale: endS, duration: .9, ease: 'power3.out' }, TE + .55);
+    up('#end .tl .m > span', TE + .8, .14, .9);
+    tl.fromTo('#end .cta', { opacity: 0, scale: .85 }, { opacity: 1, scale: 1, duration: .6, ease: 'back.out(2)' }, TE + 1.35);
+    fadeUp('#end .url', TE + 1.6, .6, 14);
+    fadeUp('#end .addr', TE + 1.8, .6, 12);
+    tl.fromTo('#end .ring', { opacity: .7, scale: 1 }, { opacity: 0, scale: 1.25, duration: 1.1, ease: 'power2.out' }, TE + 2.1);
+    tl.set({}, {}, DURATION);
     return tl;
   }
 
-  // ---------- Démarrage ----------
   window.__ready = Promise.all([logoReady, document.fonts.ready]).then(([hasLogo]) => {
     const tl = build(hasLogo);
     window.tl = tl;
     window.seek = t => { tl.time(Math.min(t, DURATION), false); };
     if (RENDER) { tl.time(0, false); return true; }
-
-    const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), play = document.getElementById('play');
-    tl.eventCallback('onUpdate', () => {
-      scrub.value = Math.round(tl.progress() * 1000);
-      tc.textContent = tl.time().toFixed(1) + 's';
-    });
+    const scrub = $('#scrub'), tc = $('#tc'), play = $('#play');
+    tl.eventCallback('onUpdate', () => { scrub.value = Math.round(tl.progress() * 1000); tc.textContent = tl.time().toFixed(1) + 's'; });
     tl.eventCallback('onComplete', () => { play.textContent = 'Lecture'; });
     setTimeout(() => tl.play(0), 300);
-    play.onclick = () => {
-      if (tl.progress() === 1) tl.play(0);
-      else tl.paused(!tl.paused());
-      play.textContent = tl.paused() ? 'Lecture' : 'Pause';
-    };
-    document.getElementById('replay').onclick = () => { tl.play(0); play.textContent = 'Pause'; };
+    play.onclick = () => { if (tl.progress() === 1) tl.play(0); else tl.paused(!tl.paused()); play.textContent = tl.paused() ? 'Lecture' : 'Pause'; };
+    $('#replay').onclick = () => { tl.play(0); play.textContent = 'Pause'; };
     scrub.oninput = () => { tl.pause(); play.textContent = 'Lecture'; tl.progress(scrub.value / 1000); };
-    document.querySelectorAll('#controls [data-f]').forEach(b => {
+    $$('#controls [data-f]').forEach(b => {
       b.classList.toggle('on', b.dataset.f === FORMAT);
       b.onclick = () => { q.set('format', b.dataset.f); location.search = q.toString(); };
     });
